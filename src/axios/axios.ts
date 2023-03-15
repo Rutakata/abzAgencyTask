@@ -15,6 +15,8 @@ export function getUsers(page: number) {
 }
 
 export function createUser(name: string, email: string, phone: string, position: number, photo: File, token: string) {
+    console.log(photo);
+    
     return client.post(`users`, {name, email, phone, position, photo}, {headers: {
         'token': token
     }})

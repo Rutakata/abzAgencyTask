@@ -1,5 +1,6 @@
 import {useEffect, MouseEvent} from 'react';
 import Button from '../../common/Button';
+import Preloader from '../../common/Preloader';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { requestUsers } from '../../store/usersReducer';
 import Users from './Users';
@@ -43,7 +44,7 @@ const UsersContainer = () => {
     }else if (!loading && !success) {
         return <div>Some error</div>
     }else {
-        return <div>Loading...</div>
+        return <Preloader />
     }
 }
 

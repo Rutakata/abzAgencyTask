@@ -1,4 +1,5 @@
 import { useEffect, MouseEvent } from 'react';
+import Preloader from '../../common/Preloader';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { requestPositions, sendUserData } from '../../store/formReducer';
 import { setError } from '../../store/formReducer';
@@ -47,7 +48,7 @@ const FormContainer = () => {
     }else if (!loading && !success) {
         return <div>Some error has occured</div>
     }else {
-        return <div>Loading...</div>
+        return <Preloader />
     }
 }
 
