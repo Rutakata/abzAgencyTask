@@ -1,4 +1,4 @@
-import {FormEvent} from 'react';
+import {MouseEvent} from 'react';
 import Input from "../../common/Input";
 import { Position, sendUserData } from "../../store/formReducer";
 import { setName, setEmail, setPhone, setPosition, setPhoto } from "../../store/formReducer";
@@ -14,10 +14,11 @@ type Props = {
     position: number,
     photo: null|string,
     positions: Position[],
-    handleSubmit: () => void
+    error: {field: string, message: string}[],
+    handleSubmit: (e: MouseEvent<HTMLElement>) => void
 }
 
-const Form = ({name, email, phone, positions, handleSubmit}: Props) => {
+const Form = ({name, email, phone, positions, handleSubmit, error}: Props) => {
     const dispatch = useAppDispatch();
     
 
@@ -32,7 +33,7 @@ const Form = ({name, email, phone, positions, handleSubmit}: Props) => {
                 <h3 className='text-base sm:mb-[0.688rem]'>Select your position</h3>
                 <div className='sm:gap-[0.438rem]'>
                     {
-                        positions.map(position => <RadioButton position={position} handler={setPosition} key={position.id} />)
+                        positions.map((position, index) => <RadioButton isChecked={index === 0 ? true: false} position={position} handler={setPosition} key={position.id} />)
                     }
                 </div>
             </div>

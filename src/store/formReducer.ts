@@ -15,7 +15,7 @@ type FormState = {
     photo: null|string,
     loading: boolean,
     success: boolean,
-    error: null|string,
+    error: {field: string, message: string}[],
     positions: Position[]
 }
 
@@ -27,7 +27,7 @@ const initialState: FormState = {
     photo: null,
     loading: false,
     success: false,
-    error: null,
+    error: [],
     positions: []
 }   
 
@@ -49,6 +49,9 @@ export const formSlice = createSlice({
         },
         setPhoto(state: FormState, action) {
             state.photo = action.payload;
+        },
+        setError(state: FormState, action) {
+            state.error.push(action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -97,5 +100,5 @@ export const sendUserData = createAsyncThunk('form/sendUserData', async({name, e
     response = await createUser(name, email, phone, Number(position), photo, response.data.token);
 })
 
-export const {setName, setEmail, setPhone, setPosition, setPhoto} = formSlice.actions;
+export const {setName, setEmail, setPhone, setPosition, setPhoto, setError} = formSlice.actions;
 export default formSlice.reducer;

@@ -5,10 +5,11 @@ import { Position } from "../store/formReducer"
 
 type Props = {
     position: Position,
+    isChecked?: boolean,
     handler: (value: string) => any
 }
 
-const RadioButton = ({position, handler}: Props) => {
+const RadioButton = ({position, isChecked, handler}: Props) => {
     const dispatch = useAppDispatch();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +18,7 @@ const RadioButton = ({position, handler}: Props) => {
 
     return <div className='flex items-center gap-[0.75rem] mb-[0.438rem]'>
             <input type='radio' value={position.id} id={position.name} name='position' onChange={handleChange} 
-            className='w-5 h-5 text-blue' />
+            className='w-5 h-5 text-blue' defaultChecked={isChecked} />
             <label htmlFor={position.name}>{position.name}</label>
     </div> 
 }
