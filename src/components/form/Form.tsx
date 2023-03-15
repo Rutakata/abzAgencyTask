@@ -1,4 +1,4 @@
-import {MouseEvent} from 'react';
+import {MouseEvent, useEffect, useState} from 'react';
 import Input from "../../common/Input";
 import { Position, sendUserData } from "../../store/formReducer";
 import { setName, setEmail, setPhone, setPosition, setPhoto } from "../../store/formReducer";
@@ -12,23 +12,40 @@ type Props = {
     email: string,
     phone: string,
     position: number,
-    photo: null|string,
+    photo: File|null,
     positions: Position[],
-    error: {field: string, message: string}[],
+    errors: {field: string, message: string}[],
     handleSubmit: (e: MouseEvent<HTMLElement>) => void
 }
 
-const Form = ({name, email, phone, positions, handleSubmit, error}: Props) => {
-    const dispatch = useAppDispatch();
-    
+const Form = ({name, email, phone, positions, handleSubmit, errors}: Props) => {
+    const [errorFields, setErrorFields] = useState<string[]>([]);
+    useEffect(() => {
+        setErrorFields(errors.map(error => error.field));
+    }, [errors])
 
     return <div className="mt-[8.75rem] xl:w-[73.125rem] xl:mx-auto">
         <h1 className="text-[2.5rem] text-center sm:leading-10">Working with POST request</h1>
         <form className="mt-[3.125rem] flex flex-col justify-center gap-[3.125rem] w-min mx-auto">
-            {/* <input type='text' className="w-[20.5rem] h-[3.375rem] border border-[#D0CFCF] p-3.5 placeholder:text-base" /> */}
-            <Input value={name} handler={setName}>Your name</Input>
-            <Input value={email} handler={setEmail} type='email'>Email</Input>
-            <Input value={phone} help='+38 (XXX)XXX-XX-XX' handler={setPhone}>Phone</Input>
+            <Input value={name} 
+                   handler={setName} 
+                   isError={errorFields.includes('name')} 
+                   help={errors.filter(err => err.field === 'name')[0]}>
+                Your name
+            </Input>
+            <Input value={email} 
+                   handler={setEmail} 
+                   isError={errorFields.includes('email')} 
+                   help={errors.filter(err => err.field === 'email')[0]} 
+                   type='email'>
+                Email
+            </Input>
+            <Input value={phone} 
+                   help={errors.filter(err => err.field === 'phone')[0] || '+38 (XXX)XXX-XX-XX'} 
+                   isError={errorFields.includes('phone')} 
+                   handler={setPhone}>
+                Phone
+            </Input>
             <div>
                 <h3 className='text-base sm:mb-[0.688rem]'>Select your position</h3>
                 <div className='sm:gap-[0.438rem]'>
@@ -37,9 +54,9 @@ const Form = ({name, email, phone, positions, handleSubmit, error}: Props) => {
                     }
                 </div>
             </div>
-            <Input type='file' handler={setPhoto}>Upload your photo</Input>
+            <Input type='file' isError={errorFields.includes('name')} handler={setPhoto}>Upload your photo</Input>
             <div className='w-min mx-auto sm:mb-[6.25rem]'>
-                <Button handler={handleSubmit} disabled={true}>Sign Up</Button>
+                <Button handler={handleSubmit} disabled={errors.length > 0 ? true : false}>Sign Up</Button>
             </div>
         </form>
     </div>

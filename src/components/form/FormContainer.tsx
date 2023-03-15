@@ -6,7 +6,7 @@ import Form from './Form';
 
 
 const FormContainer = () => {
-    const {name, email, phone, position, positions, loading, success, photo, error} = useAppSelector(state => state.formReducer);
+    const {name, email, phone, position, positions, loading, success, photo, errors} = useAppSelector(state => state.formReducer);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -17,13 +17,21 @@ const FormContainer = () => {
         e.preventDefault();
         if (name.length < 2 || name.length > 60) {
             dispatch(setError({field: 'name', message: 'Length must be between 2 and 60 characters'}));
+        }else {
+            dispatch(setError({field: 'name', delete: true}));
         }
         if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
             dispatch(setError({field: 'email', message: 'Wrong email form'}));
         }
-        if (!/^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/.test(phone)) {
+        else {
+            dispatch(setError({field: 'email', delete: true}));
+        }
+        if (!/^\+?([0-9]{12})$/.test(phone)) {
             dispatch(setError({field: 'phone', message: 'Wrong phone number form'}));
             return;
+        }
+        else {
+            dispatch(setError({field: 'phone', delete: true}));
         }
         if (photo) {
             dispatch(sendUserData({name, email, phone, position, photo}));
@@ -33,7 +41,7 @@ const FormContainer = () => {
     if (!loading && success) {
         return <Form name={name} email={email} phone={phone} 
                      position={position} positions={positions} 
-                     photo={photo} error={error} handleSubmit={handleSubmit}/>
+                     photo={photo} errors={errors} handleSubmit={handleSubmit}/>
     }else if (loading) {
         return <div>Loading...</div>
     }else if (!loading && !success) {

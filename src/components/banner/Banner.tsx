@@ -2,7 +2,7 @@ import Button from "../../common/Button";
 
 
 const Banner = () => {
-    return <div className="h-[31.25rem] bg-[url('./assets/banner.jpeg')] 
+    return <div className="h-[31.25rem] bg-[url('./assets/banner.jpeg')] bg-slate-700 bg-blend-multiply 
                            bg-cover bg-no-repeat bg-center sm:px-4 sm:pt-10 sm:pb-[4.438rem] 
                            md:px-[12.125rem] md:py-[5.5rem] lg:py-[5.5rem] lg:px-[12.125rem] xl:w-[73.125rem] xl:mx-auto">
         <h1 className="font-normal text-[2.5rem] text-center text-white mb-[1.313rem] sm:leading-10

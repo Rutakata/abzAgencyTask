@@ -8,7 +8,7 @@ type Props = {
 }
 
 const Button = ({children, handler, disabled}: Props) => {
-    return <button className={`w-[6.25rem] h-[2.125rem] bg-yellow ${disabled ? 'bg-disabled': null} rounded-full font-normal text-base`} onClick={handler}>
+    return <button className={`w-[6.25rem] h-[2.125rem] ${disabled ? 'bg-disabled': 'bg-yellow'} rounded-full font-normal text-base`} onClick={handler}>
         {children}
     </button>
 }

@@ -10,7 +10,8 @@ module.exports = {
       'blue': '00bdd3',
       'light-gray': '#f8f8f8',
       'disabled': '#b4b4b4',
-      'white': '#ffffff'
+      'white': '#ffffff',
+      'error': '#E52D2D'
     },
     extend: {
       spacing: {
