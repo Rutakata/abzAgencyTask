@@ -12,13 +12,13 @@ type Props = {
     email: string,
     phone: string,
     position: number,
-    photo: File|null,
     positions: Position[],
     errors: {field: string, message: string}[],
-    handleSubmit: (e: MouseEvent<HTMLElement>) => void
+    handleSubmit: (e: MouseEvent<HTMLElement>) => void,
+    setPhoto: (photo: FormData|string) => any
 }
 
-const Form = ({name, email, phone, positions, handleSubmit, errors}: Props) => {
+const Form = ({name, email, phone, positions, handleSubmit, errors, setPhoto}: Props) => {
     const [errorFields, setErrorFields] = useState<string[]>([]);
     useEffect(() => {
         setErrorFields(errors.map(error => error.field));
@@ -54,9 +54,12 @@ const Form = ({name, email, phone, positions, handleSubmit, errors}: Props) => {
                     }
                 </div>
             </div>
-            <Input type='file' isError={errorFields.includes('name')} handler={setPhoto}>Upload your photo</Input>
+            <Input type='file' 
+                   isError={errorFields.includes('name')}
+                   help={errors.filter(err => err.field === 'file')[0]}  
+                   handler={setPhoto}>Upload your photo</Input>
             <div className='w-min mx-auto sm:mb-[6.25rem]'>
-                <Button handler={handleSubmit} disabled={errors.length > 0 ? true : false}>Sign Up</Button>
+                <Button handler={handleSubmit} >Sign Up</Button>
             </div>
         </form>
     </div>

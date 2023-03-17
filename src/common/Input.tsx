@@ -8,15 +8,17 @@ type Props = {
     isError: boolean,
     children: string,
     type?: string, 
-    handler: (value: string|File) => any
+    handler: (value: FormData|string) => any
 }
 
 const Input = ({value, children, help, type, handler, isError}: Props) => {
     const dispatch = useAppDispatch();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            dispatch(handler(e.target.files[0]));
+        if (e.target.files && e.target.files.length > 0) {
+            const formData = new FormData();
+            formData.append('photo', e.target.files[0]);
+            handler(formData);
         }else {
             dispatch(handler(e.target.value));
         }

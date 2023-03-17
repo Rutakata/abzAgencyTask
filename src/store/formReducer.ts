@@ -99,7 +99,7 @@ type User = {
     email: string,
     phone: string,
     position: number, 
-    photo: File
+    photo: FormData | string
 }
 
 export const sendUserData = createAsyncThunk('form/sendUserData', async({name, email, phone, position, photo}: User) => {

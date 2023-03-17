@@ -1,4 +1,4 @@
-import { useEffect, MouseEvent } from 'react';
+import { useEffect, MouseEvent, useState, ChangeEvent } from 'react';
 import Preloader from '../../common/Preloader';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { requestPositions, sendUserData } from '../../store/formReducer';
@@ -7,7 +7,8 @@ import Form from './Form';
 
 
 const FormContainer = () => {
-    const {name, email, phone, position, positions, loading, success, photo, errors} = useAppSelector(state => state.formReducer);
+    const {name, email, phone, position, positions, loading, success, errors} = useAppSelector(state => state.formReducer);
+    const [photo, setPhoto] = useState<FormData|string>('');
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -35,14 +36,17 @@ const FormContainer = () => {
             dispatch(setError({field: 'phone', delete: true}));
         }
         if (photo) {
+            console.log('test');
+            
             dispatch(sendUserData({name, email, phone, position, photo}));
+            dispatch(setError({field: 'phone', delete: true}));
         }
     }
 
     if (!loading && success) {
         return <Form name={name} email={email} phone={phone} 
                      position={position} positions={positions} 
-                     photo={photo} errors={errors} handleSubmit={handleSubmit}/>
+                     errors={errors} handleSubmit={handleSubmit} setPhoto={setPhoto} />
     }else if (loading) {
         return <div>Loading...</div>
     }else if (!loading && !success) {
